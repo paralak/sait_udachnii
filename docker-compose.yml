@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_website
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./data/website:/var/www/html:rw
+    depends_on:
+      - php
+    networks:
+      - web_network
+
+  php:
+    image: php:8.2-fpm-alpine
+    container_name: php_fpm
+    volumes:
+      - ./data/website:/var/www/html:rw
+    environment:
+      - PHP_MEMORY_LIMIT=256M
+      - UPLOAD_MAX_FILESIZE=64M
+      - POST_MAX_SIZE=64M
+    networks:
+      - web_network
+
+  sftp:
+    image: atmoz/sftp:alpine
+    container_name: sftp_website
+    ports:
+      - "2222:22"
+    volumes:
+      - ./data/website:/home/user/website:rw
+    command: "user:password:1001"
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    driver: bridge

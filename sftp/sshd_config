@@ -1,0 +1,33 @@
+Port 22
+Protocol 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+SyslogFacility AUTH
+LogLevel INFO
+
+LoginGraceTime 120
+PermitRootLogin no
+StrictModes yes
+
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+
+PasswordAuthentication yes
+PermitEmptyPasswords no
+
+ChallengeResponseAuthentication no
+
+X11Forwarding no
+PrintMotd no
+
+AcceptEnv LANG LC_*
+
+Subsystem sftp internal-sftp
+
+ForceCommand internal-sftp
+ChrootDirectory /home/user
+PermitTunnel no
+AllowAgentForwarding no
+AllowTcpForwarding no
