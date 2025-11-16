@@ -2,13 +2,14 @@ version: '3.8'
 
 services:
   nginx:
-    image: nginx:alpine
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     container_name: nginx_website
     ports:
       - "80:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./data/website:/var/www/html:rw
+      - ./data/website:/var/www/html:rw  # для SFTP доступа
     depends_on:
       - php
     networks:
@@ -19,10 +20,6 @@ services:
     container_name: php_fpm
     volumes:
       - ./data/website:/var/www/html:rw
-    environment:
-      - PHP_MEMORY_LIMIT=256M
-      - UPLOAD_MAX_FILESIZE=64M
-      - POST_MAX_SIZE=64M
     networks:
       - web_network
 
