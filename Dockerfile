@@ -1,4 +1,3 @@
-dockerfile
 FROM nginx:alpine
 
 ENV NGINX_ENV=production
