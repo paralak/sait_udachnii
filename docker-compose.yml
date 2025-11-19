@@ -8,6 +8,12 @@ services:
     ports:
     - "8080:80"
 
+  php:
+    image: php:8.2-fpm-alpine
+    container_name: php_fpm
+    
+    networks:
+      - web_network
 
 networks:
   web_network:
