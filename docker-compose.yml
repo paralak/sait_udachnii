@@ -1,19 +1,25 @@
 version: '3.8'
 
+
 services:
   nginx:
     image: nginx
-    volumes:
-    - ./templates:/etc/nginx/templates
     ports:
-    - "8080:80"
+      - "8080:80"
+    volumes:
+      - ./templates:/etc/nginx/templates
+    depends_on:
+      - php
 
   php:
     image: php:8.2-fpm-alpine
-    container_name: php_fpm
-    
+    ports:
+      - "42022:22"
     networks:
       - web_network
+    volumes:
+      - .:/var/www/html
+
 
 networks:
   web_network:
