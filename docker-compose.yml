@@ -2,35 +2,19 @@ version: '3.8'
 
 services:
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    container_name: nginx_website
-    ports:
-      - "80:80"
+    image: nginx
     volumes:
-      - ./data/website:/var/www/html:rw  # для SFTP доступа
-    depends_on:
-      - php
-    networks:
-      - web_network
+    - ./templates:/etc/nginx/templates
+    ports:
+    - "8080:80"
+    environment:
+    - NGINX_HOST=foobar.com
+    - NGINX_PORT=80
 
   php:
     image: php:8.2-fpm-alpine
     container_name: php_fpm
-    volumes:
-      - ./data/website:/var/www/html:rw
-    networks:
-      - web_network
-
-  sftp:
-    image: atmoz/sftp:alpine
-    container_name: sftp_website
-    ports:
-      - "2222:22"
-    volumes:
-      - ./data/website:/home/user/website:rw
-    command: "user:password:1001"
+    
     networks:
       - web_network
 

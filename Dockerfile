@@ -1,10 +1,3 @@
 FROM nginx:alpine
-
-ENV NGINX_ENV=production
-
-WORKDIR /var/www/html
-
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY html/ /var/www/html/
-
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 CMD ["nginx", "-g", "daemon off;"]
